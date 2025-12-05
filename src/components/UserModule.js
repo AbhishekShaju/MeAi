@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 
 // Generate a simple browser fingerprint
 const getBrowserFingerprint = () => {
@@ -36,7 +37,7 @@ function UserModule() {
 
   const fetchForm = async () => {
     try {
-      const response = await axios.get('/api/form');
+      const response = await axios.get(`${API_URL}/api/form`);
       setForm(response.data);
       setLoading(false);
     } catch (error) {
@@ -160,7 +161,7 @@ function UserModule() {
       const completionTime = Math.round((Date.now() - startTime) / 1000); // seconds
       const fingerprint = getBrowserFingerprint();
       
-      const response = await axios.post('/api/submit', {
+      const response = await axios.post(`${API_URL}/api/submit`, {
         answers,
         completionTime,
         fingerprint

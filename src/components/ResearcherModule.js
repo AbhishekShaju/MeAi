@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import API_URL from '../config';
 
 function ResearcherModule() {
   const [questions, setQuestions] = useState([]);
@@ -27,7 +28,7 @@ function ResearcherModule() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get('/api/researcher/questions');
+      const response = await axios.get(`${API_URL}/api/researcher/questions`);
       setQuestions(response.data);
       setLoading(false);
     } catch (error) {
@@ -57,7 +58,7 @@ function ResearcherModule() {
         options: newQuestion.options?.filter(o => o.trim()) || []
       };
 
-      const response = await axios.post('/api/researcher/questions', questionData);
+      const response = await axios.post(`${API_URL}/api/researcher/questions`, questionData);
       
       setQuestions([...questions, response.data]);
       setNewQuestion(emptyQuestion);
@@ -72,7 +73,7 @@ function ResearcherModule() {
 
   const handleUpdateQuestion = async (questionId, updates) => {
     try {
-      const response = await axios.put(`/api/researcher/questions/${questionId}`, updates);
+      const response = await axios.put(`${API_URL}/api/researcher/questions/${questionId}`, updates);
       
       setQuestions(questions.map(q => q.id === questionId ? response.data : q));
       setEditingQuestion(null);
@@ -90,7 +91,7 @@ function ResearcherModule() {
     }
 
     try {
-      await axios.delete(`/api/researcher/questions/${questionId}`);
+      await axios.delete(`${API_URL}/api/researcher/questions/${questionId}`);
       
       setQuestions(questions.filter(q => q.id !== questionId));
       setMessage({ type: 'success', text: 'Question deleted successfully!' });
@@ -117,7 +118,7 @@ function ResearcherModule() {
     setQuestions(reordered);
 
     try {
-      await axios.put('/api/researcher/questions/reorder', {
+      await axios.put(`${API_URL}/api/researcher/questions/reorder`, {
         orderedIds: unlocked.map(q => q.id)
       });
       setMessage({ type: 'success', text: 'Questions reordered successfully!' });

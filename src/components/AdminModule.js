@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import html2canvas from 'html2canvas';
+import API_URL from '../config';
 
 const COLORS = ['#89CFF0', '#A8D8B9', '#FFD54F', '#FF8A80', '#B39DDB', '#81C784', '#64B5F6', '#FFB74D'];
 
@@ -28,7 +29,7 @@ function AdminModule() {
       if (filters.ageGroup) params.ageGroup = filters.ageGroup;
       if (filters.placeOfLiving) params.placeOfLiving = filters.placeOfLiving;
 
-      const response = await axios.get('/api/admin/analytics', { params });
+      const response = await axios.get(`${API_URL}/api/admin/analytics`, { params });
       setAnalytics(response.data);
       setLoading(false);
     } catch (error) {
@@ -69,7 +70,7 @@ function AdminModule() {
       if (filters.placeOfLiving) params.placeOfLiving = filters.placeOfLiving;
 
       if (format === 'csv') {
-        const response = await axios.get('/api/admin/submissions', {
+        const response = await axios.get(`${API_URL}/api/admin/submissions`, {
           params,
           responseType: 'blob'
         });
@@ -84,7 +85,7 @@ function AdminModule() {
 
         setMessage({ type: 'success', text: 'CSV exported successfully!' });
       } else if (format === 'json') {
-        const response = await axios.get('/api/admin/submissions', { params });
+        const response = await axios.get(`${API_URL}/api/admin/submissions`, { params });
 
         const dataStr = JSON.stringify(response.data, null, 2);
         const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
