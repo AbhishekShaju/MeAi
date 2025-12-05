@@ -8,6 +8,11 @@ module.exports = function(app) {
   // we'll create a simple mock API or you can use `vercel dev` instead
   
   app.use('/api/form', (req, res) => {
+    // Set CORS headers
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    
     // Import the questions data
     const questions = [
       {
@@ -112,6 +117,11 @@ module.exports = function(app) {
   });
 
   app.post('/api/submit', (req, res) => {
+    // Set CORS headers
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    
     const { answers, completionTime, fingerprint } = req.body;
     
     if (!answers || Object.keys(answers).length === 0) {
